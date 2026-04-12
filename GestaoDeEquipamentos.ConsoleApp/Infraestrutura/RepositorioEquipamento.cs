@@ -10,22 +10,22 @@ public class RepositorioEquipamento
 
     public void Cadastrar(Equipamento novoEquipamento)
     {
+        novoEquipamento.id = Convert
+                   .ToHexString(RandomNumberGenerator.GetBytes(20))
+                   .ToLower()
+                   .Substring(0, 7); // 0-255
 
-        novoEquipamento.id = Convert.ToHexString(RandomNumberGenerator.GetBytes(20)).ToLower().Substring(0, 7);
-
-        do
+        for (int i = 0; i < equipamentos.Length; i++)
         {
-            Console.Write("Digite o nome do equipamento: ");
-            novoEquipamento.nome = Console.ReadLine();
+            Equipamento? e = equipamentos[i];
 
-            if (!string.IsNullOrWhiteSpace(novoEquipamento.nome) && novoEquipamento.nome.Length > 3)
+            if (e == null)
             {
+                equipamentos[i] = novoEquipamento;
                 break;
             }
-
-        } while (true);
+        }
     }
-
     public bool Editar(string idSelecionado, Equipamento novoEquipamento)
     {
         Equipamento? equipamentoSelecionado = SelecionarPorId(idSelecionado);

@@ -29,6 +29,7 @@ public class ApresentarMenu
 
     public void Cadastrar()
     {
+
         Equipamento novoEquipamento = new Equipamento();
 
         Console.Clear();
@@ -39,10 +40,23 @@ public class ApresentarMenu
 
         do
         {
+            Console.Write("Digite o nome do equipamento: ");
+            novoEquipamento.nome = Console.ReadLine();
+
+            if (!string.IsNullOrWhiteSpace(novoEquipamento.nome) &&
+                novoEquipamento.nome.Length >= 3)
+            {
+                break;
+            }
+
+        } while (true);
+        
+        do
+        {
             Console.Write("Digite o nome do fabricante: ");
             novoEquipamento.fabricante = Console.ReadLine();
 
-            if (!string.IsNullOrWhiteSpace(novoEquipamento.fabricante) && novoEquipamento.fabricante.Length > 2)
+            if (!string.IsNullOrWhiteSpace(novoEquipamento.fabricante) && novoEquipamento.fabricante.Length >= 2)
             {
                 break;
             }
@@ -120,7 +134,7 @@ public class ApresentarMenu
             Console.Write("Digite o nome do equipamento: ");
             novoEquipamento.nome = Console.ReadLine();
 
-            if (!string.IsNullOrWhiteSpace(novoEquipamento.nome) && novoEquipamento.nome.Length > 3)
+            if (!string.IsNullOrWhiteSpace(novoEquipamento.nome) && novoEquipamento.nome.Length >= 3)
             {
                 break;
             }
@@ -132,7 +146,7 @@ public class ApresentarMenu
             Console.Write("Digite o nome do fabricante: ");
             novoEquipamento.fabricante = Console.ReadLine();
 
-            if (!string.IsNullOrWhiteSpace(novoEquipamento.fabricante) && novoEquipamento.fabricante.Length > 2)
+            if (!string.IsNullOrWhiteSpace(novoEquipamento.fabricante) && novoEquipamento.fabricante.Length >= 2)
             {
                 break;
             }
@@ -169,7 +183,7 @@ public class ApresentarMenu
     public void ExcluirEquimentos()
     {
         Equipamento?[] equipamentos = repositorio.SelecionarTodos();
-        
+
         Console.Clear();
         Console.WriteLine("---------------------------------");
         Console.WriteLine("Gestão de Equipamentos");
