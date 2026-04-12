@@ -4,7 +4,7 @@ using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using GestaoDeEquipamentos.ConsoleApp.ApresentarMenu;
 using GestaoDeEquipamentos.ConsoleApp.dominio;
-Equipamento[] equipamentos = new Equipamento[190];
+
 ApresentarMenu menu = new ApresentarMenu();
 while (true)
 {
@@ -17,23 +17,23 @@ while (true)
     {
         case "1":
             {
-                menu.Cadastrar(equipamentos);
+                menu.Cadastrar();
                 break;
             }
         case "2":
             {
-                menu.EditarEquipamentos(equipamentos);
+                menu.EditarEquipamentos();
                 break;
             }
         case "3":
             {
-                menu.ExcluirEquimentos(equipamentos);
+                menu.ExcluirEquimentos();
                 break;
             }   
 
         case "4":
             {
-                menu.VisualizarEquipamentos(equipamentos);
+                menu.VisualizarEquipamentos();
                 break;
             }
 

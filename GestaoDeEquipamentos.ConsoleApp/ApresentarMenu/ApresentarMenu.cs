@@ -2,11 +2,13 @@ using System;
 using System.Reflection.Metadata.Ecma335;
 using System.Security.Cryptography;
 using GestaoDeEquipamentos.ConsoleApp.dominio;
+using GestaoDeEquipamentos.ConsoleApp.Infraestrutura;
 
 namespace GestaoDeEquipamentos.ConsoleApp.ApresentarMenu;
 
 public class ApresentarMenu
 {
+    public RepositorioEquipamento repositorio = new RepositorioEquipamento();
     public string? MenuInical()
     {
         Console.Clear();
@@ -25,7 +27,7 @@ public class ApresentarMenu
         return opcaoMenu;
     }
 
-    public void Cadastrar(Equipamento?[] equipamentos)
+    public void Cadastrar()
     {
         Equipamento novoEquipamento = new Equipamento();
 
@@ -34,20 +36,6 @@ public class ApresentarMenu
         Console.WriteLine("Gestão de Equipamentos");
         Console.WriteLine("---------------------------------");
         Console.WriteLine("Cadastrar Equipamento");
-
-        novoEquipamento.id = Convert.ToHexString(RandomNumberGenerator.GetBytes(20)).ToLower().Substring(0, 7);
-
-        do
-        {
-            Console.Write("Digite o nome do equipamento: ");
-            novoEquipamento.nome = Console.ReadLine();
-
-            if (!string.IsNullOrWhiteSpace(novoEquipamento.nome) && novoEquipamento.nome.Length > 3)
-            {
-                break;
-            }
-
-        } while (true);
 
         do
         {
@@ -67,6 +55,8 @@ public class ApresentarMenu
         Console.Write("Digite a data da fabricação: ");
         novoEquipamento.dataFabricacao = Convert.ToDateTime(Console.ReadLine());
 
+        Equipamento?[] equipamentos = repositorio.SelecionarTodos();
+
         for (int i = 0; i < equipamentos.Length; i++)
         {
             Equipamento? e = equipamentos[i];
@@ -78,6 +68,8 @@ public class ApresentarMenu
             }
         }
 
+        repositorio.Cadastrar(novoEquipamento);
+
         Console.WriteLine("---------------------------------");
         Console.WriteLine($"O \"{novoEquipamento.nome}\" foi castrado com sucesso e o ID e: {novoEquipamento.id}");
         Console.WriteLine("---------------------------------");
@@ -85,7 +77,7 @@ public class ApresentarMenu
         Console.ReadLine();
     }
 
-    public void EditarEquipamentos(Equipamento?[] equipamentos)
+    public void EditarEquipamentos()
     {
         Console.Clear();
         Console.WriteLine("---------------------------------");
@@ -94,8 +86,9 @@ public class ApresentarMenu
         Console.WriteLine("Editar equipamento");
 
         Console.WriteLine("{0,-7} | {1,-15} | {2,-15} | {3,-22} | {4,-10}",
-                   "ID", "NOME", "FABRICANTE", "PREÇO DE AQUISIÇÃO", "DATA DE FABRICAÇÃO");
+     "ID", "NOME", "FABRICANTE", "PREÇO DE AQUISIÇÃO", "DATA DE FABRICAÇÃO");
 
+        Equipamento?[] equipamentos = repositorio.SelecionarTodos();
 
         for (int i = 0; i < equipamentos.Length; i++)
         {
@@ -121,33 +114,6 @@ public class ApresentarMenu
 
         } while (true);
 
-        Equipamento? equipamentoSelecionado = null;
-
-        for (int i = 0; i < equipamentos.Length; i++)
-        {
-            Equipamento? e = equipamentos[i];
-
-            if (e == null)
-            {
-                continue;
-            }
-            if (e.id == idSelecionado)
-            {
-                equipamentoSelecionado = e;
-                break;
-            }
-        }
-
-        if (equipamentoSelecionado == null)
-        {
-            Console.WriteLine("---------------------------------");
-            Console.WriteLine("Não foi possivel encontrar o equipamento informado.");
-            Console.WriteLine("---------------------------------");
-            Console.WriteLine("Aperte ENTER para voltar");
-            Console.ReadLine();
-
-        }
-
         Equipamento novoEquipamento = new Equipamento();
         do
         {
@@ -179,21 +145,18 @@ public class ApresentarMenu
         Console.Write("Digite a data da fabricação: ");
         novoEquipamento.dataFabricacao = Convert.ToDateTime(Console.ReadLine());
 
-        for (int i = 0; i < equipamentos.Length; i++)
+        bool conseguiuEditar = repositorio.Editar(idSelecionado, novoEquipamento);
+
+
+        if (!conseguiuEditar)
         {
-            Equipamento? e = equipamentos[i];
+            Console.WriteLine("---------------------------------");
+            Console.WriteLine("Não foi possivel encontrar o equipamento informado.");
+            Console.WriteLine("---------------------------------");
+            Console.WriteLine("Aperte ENTER para voltar");
+            Console.ReadLine();
 
-            if (e == null)
-            {
-                equipamentos[i] = novoEquipamento;
-                break;
-            }
         }
-
-        equipamentoSelecionado?.nome = novoEquipamento.nome;
-        equipamentoSelecionado?.fabricante = novoEquipamento.fabricante;
-        equipamentoSelecionado?.precoAquisicao = novoEquipamento.precoAquisicao;
-        equipamentoSelecionado?.dataFabricacao = novoEquipamento.dataFabricacao;
 
         Console.WriteLine("---------------------------------");
         Console.WriteLine($"O \"{idSelecionado}\" foi editado com sucesso!.");
@@ -202,8 +165,11 @@ public class ApresentarMenu
         Console.ReadLine();
 
     }
-    public void ExcluirEquimentos(Equipamento[] equipamentos)
+
+    public void ExcluirEquimentos()
     {
+        Equipamento?[] equipamentos = repositorio.SelecionarTodos();
+        
         Console.Clear();
         Console.WriteLine("---------------------------------");
         Console.WriteLine("Gestão de Equipamentos");
@@ -238,23 +204,9 @@ public class ApresentarMenu
 
         } while (true);
 
-        bool equipamentoExcuido = false;
+        bool conseguiuExcluir = repositorio.Excluir(idSelecionado);
 
-        for (int i = 0; i < equipamentos.Length; i++)
-        {
-            Equipamento? e = equipamentos[i];
-
-            if (e == null)
-                continue;
-
-            if (e.id == idSelecionado)
-            {
-                equipamentos[i] = null;
-                equipamentoExcuido = true;
-            }
-        }
-
-        if (equipamentoExcuido)
+        if (conseguiuExcluir)
         {
             Console.WriteLine("---------------------------------");
             Console.WriteLine($"O \"{idSelecionado}\" foi excluido com sucesso!.");
@@ -272,7 +224,7 @@ public class ApresentarMenu
 
     }
 
-    public void VisualizarEquipamentos(Equipamento[] equipamentos)
+    public void VisualizarEquipamentos()
     {
 
         Console.Clear();
@@ -284,7 +236,9 @@ public class ApresentarMenu
         Console.WriteLine("{0,-7} | {1,-15} | {2,-15} | {3,-22} | {4,-10}",
         "ID", "NOME", "FABRICANTE", "PREÇO DE AQUISIÇÃO", "DATA DE FABRICAÇÃO");
 
-        for (int i = 0; i < equipamentos.Length; i++)
+        Equipamento?[] equipamentos = repositorio.SelecionarTodos();
+
+        for (int i = 0; i < repositorio.equipamentos.Length; i++)
         {
             Equipamento? e = equipamentos[i];
 
@@ -302,4 +256,3 @@ public class ApresentarMenu
 
     }
 }
-
