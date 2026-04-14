@@ -1,7 +1,4 @@
-using System;
-using System.Security.Cryptography.X509Certificates;
-
-namespace GestaoDeEquipamentos.ConsoleApp.dominio;
+namespace GestaoDeEquipamentos.ConsoleApp.Dominio;
 
 public class Equipamento
 {

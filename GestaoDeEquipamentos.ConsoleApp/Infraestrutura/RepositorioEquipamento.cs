@@ -1,6 +1,6 @@
 using System;
 using System.Security.Cryptography;
-using GestaoDeEquipamentos.ConsoleApp.dominio;
+using GestaoDeEquipamentos.ConsoleApp.Dominio;
 
 namespace GestaoDeEquipamentos.ConsoleApp.Infraestrutura;
 
