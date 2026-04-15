@@ -95,7 +95,6 @@ public class TelaChamado
     {
         ExibirCabecalho("Exclusão de Chamado");
 
-      
         VisualizarTodos(deveExibirCabecalho: false);
 
         Console.WriteLine("---------------------------------");
@@ -111,7 +110,6 @@ public class TelaChamado
                 break;
         } while (true);
 
-    
         bool conseguiuExcluir = repositorioChamado.Excluir(idSelecionado);
 
         if (!conseguiuExcluir)

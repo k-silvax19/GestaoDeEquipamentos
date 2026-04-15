@@ -6,36 +6,19 @@ using GestaoDeEquipamentos.ConsoleApp.Infraestrutura;
 RepositorioEquipamento repositorioEquipamento = new RepositorioEquipamento();
 RepositorioChamado repositorioChamado = new RepositorioChamado();
 
-ApresentarMenu menu = new ApresentarMenu();
-menu.repositorioEquipamento = repositorioEquipamento;
+RepositorioEquipamento rep = new RepositorioEquipamento();
+RepositorioChamado repositorioChamado1 = new RepositorioChamado();
+
+TelaEquipamento telaEquipamento = new TelaEquipamento();
+telaEquipamento.repositorioEquipamento = repositorioEquipamento;
 
 TelaChamado telaChamado = new TelaChamado();
 telaChamado.repositorioChamado = repositorioChamado;
 telaChamado.repositorioEquipamento = repositorioEquipamento;
 
-// Dados teste
-Equipamento equipamento = new Equipamento();
-equipamento.nome = "Notebook";
-equipamento.fabricante = "Acer";
-equipamento.precoAquisicao = 2000;
-equipamento.dataFabricacao = DateTime.Now.AddYears(-5);
+TelaFabricante telaFabricante = new TelaFabricante();
 
-Equipamento equipamento2 = new Equipamento();
-equipamento2.nome = "Monitor";
-equipamento2.fabricante = "LG";
-equipamento2.precoAquisicao = 1200;
-equipamento2.dataFabricacao = DateTime.Now.AddYears(-4);
 
-repositorioEquipamento.Cadastrar(equipamento);
-repositorioEquipamento.Cadastrar(equipamento2);
-
-Chamado chamado = new Chamado();
-chamado.titulo = "Quebrou o display";
-chamado.descricao = "Está com deadpixel";
-chamado.dataAbertura = DateTime.Now.AddDays(-7);
-chamado.equipamento = equipamento;
-
-repositorioChamado.Cadastrar(chamado);
 
 while (true)
 {
@@ -45,6 +28,7 @@ while (true)
     Console.WriteLine("---------------------------------");
     Console.WriteLine("1 - Gerenciar Equipamentos");
     Console.WriteLine("2 - Gerenciar Chamados");
+    Console.WriteLine("3 - Gerenciar Fabricantes");
     Console.WriteLine("S - Sair");
     Console.WriteLine("---------------------------------");
     Console.Write("> ");
@@ -58,7 +42,7 @@ while (true)
     {
         case "1":
 
-            string? opcaoMenu = menu.ObterEscolhaMenuPrincipal();
+            string? opcaoMenu = telaEquipamento.ObterEscolhaMenuPrincipal();
 
             if (opcaoMenu == "S")
                 break;
@@ -66,16 +50,16 @@ while (true)
             switch (opcaoMenu)
             {
                 case "1":
-                    menu.Cadastrar();
+                    telaEquipamento.Cadastrar();
                     break;
                 case "2":
-                    menu.Editar();
+                    telaEquipamento.Editar();
                     break;
                 case "3":
-                    menu.Excluir();
+                    telaEquipamento.Excluir();
                     break;
                 case "4":
-                    menu.VisualizarTodos();
+                    telaEquipamento.VisualizarTodos();
                     break;
             }
 
@@ -99,6 +83,30 @@ while (true)
 
                 else if (opcaoMenuChamado == "4")
                     telaChamado.VisualizarTodos(deveExibirCabecalho: true);
+
+                break;
+            }
+        case "3":
+            {
+                string? opcaoMenuFabricante = telaFabricante.ObterEscolhaMenuPrincipal();
+
+                if (opcaoMenuFabricante == "S")
+                    break;
+
+                if (opcaoMenuFabricante == "1")
+                    telaFabricante.Cadastrar();
+
+                else if (opcaoMenuFabricante == "2")
+                    telaFabricante.Editar();
+
+                else if (opcaoMenuFabricante == "3")
+                    telaFabricante.Excluir();
+
+                else if (opcaoMenuFabricante == "4")
+                    telaFabricante.VisualizarTodos(deveExibirCabecalho: true);
+
+                else if (opcaoMenuFabricante == "5")
+                    telaEquipamento.Cadastrar();
 
                 break;
             }

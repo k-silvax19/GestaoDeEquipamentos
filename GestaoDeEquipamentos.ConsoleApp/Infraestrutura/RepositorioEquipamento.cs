@@ -11,9 +11,9 @@ public class RepositorioEquipamento
     public void Cadastrar(Equipamento novoEquipamento)
     {
         novoEquipamento.id = Convert
-                   .ToHexString(RandomNumberGenerator.GetBytes(20))
-                   .ToLower()
-                   .Substring(0, 7); // 0-255
+            .ToHexString(RandomNumberGenerator.GetBytes(20))
+            .ToLower()
+            .Substring(0, 7);
 
         for (int i = 0; i < equipamentos.Length; i++)
         {
@@ -26,6 +26,7 @@ public class RepositorioEquipamento
             }
         }
     }
+
     public bool Editar(string idSelecionado, Equipamento novoEquipamento)
     {
         Equipamento? equipamentoSelecionado = SelecionarPorId(idSelecionado);
@@ -33,17 +34,16 @@ public class RepositorioEquipamento
         if (equipamentoSelecionado == null)
             return false;
 
-        equipamentoSelecionado?.nome = novoEquipamento.nome;
-        equipamentoSelecionado?.fabricante = novoEquipamento.fabricante;
-        equipamentoSelecionado?.precoAquisicao = novoEquipamento.precoAquisicao;
-        equipamentoSelecionado?.dataFabricacao = novoEquipamento.dataFabricacao;
+        equipamentoSelecionado.nome = novoEquipamento.nome;
+        equipamentoSelecionado.fabricante = novoEquipamento.fabricante;
+        equipamentoSelecionado.precoAquisicao = novoEquipamento.precoAquisicao;
+        equipamentoSelecionado.dataFabricacao = novoEquipamento.dataFabricacao;
 
         return true;
     }
 
     public bool Excluir(string idSelecionado)
     {
-
         for (int i = 0; i < equipamentos.Length; i++)
         {
             Equipamento? e = equipamentos[i];
@@ -70,9 +70,8 @@ public class RepositorioEquipamento
             Equipamento? e = equipamentos[i];
 
             if (e == null)
-            {
                 continue;
-            }
+
             if (e.id == idSelecionado)
             {
                 equipamentoSelecionado = e;
@@ -83,10 +82,8 @@ public class RepositorioEquipamento
         return equipamentoSelecionado;
     }
 
-
     public Equipamento?[] SelecionarTodos()
     {
         return equipamentos;
     }
-
 }

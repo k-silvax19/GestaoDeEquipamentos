@@ -1,9 +1,9 @@
 using GestaoDeEquipamentos.ConsoleApp.Dominio;
 using GestaoDeEquipamentos.ConsoleApp.Infraestrutura;
 
-namespace GestaoDeEquipamentos.ConsoleApp.ApresentarMenu;
+namespace GestaoDeEquipamentos.ConsoleApp.Apresentacao;
 
-public class ApresentarMenu
+public class TelaEquipamento
 {
     public RepositorioEquipamento repositorioEquipamento;
 
